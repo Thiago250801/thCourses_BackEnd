@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+from datetime import timedelta
 from pathlib import Path
 # Python decouple is used to manage settings from environment variables
 # Install it with: pip install python-decouple
@@ -138,5 +139,18 @@ REST_FRAMEWORK = {
     'EXCEPTION_HANDLER': 'core.utils.custom_exceptions.custom_exception_handler',
     'DEFAULT_RENDERER_CLASSES': [
         'core.utils.renderers.CustomJSONRenderer',
-    ]
+    ],
+        # Jwt import settings (pip install djangorestframework-simplejwt)
+        'DEFAULT_AUTHENTICATION_CLASSES': (  
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ), 
+        # Configarçao pra as view so possam ser acessadas por usuários autenticados
+        'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ] 
+}
+
+#Simple JWT settings
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=7)
 }
