@@ -1,0 +1,32 @@
+# Django
+*.pyc
+__pycache__/
+db.sqlite3
+*.sqlite3
+.env
+*.log
+
+# VSCode
+.vscode/
+
+# OS generated
+.DS_Store
+Thumbs.db
+
+# Migrations
+*/migrations/
+!*/migrations/__init__.py
+
+# Media and static files
+/media/
+/staticfiles/
+staticfiles/
+media/
+
+# Coverage reports
+htmlcov/
+.coverage
+.tox/
+.nox/
+.cache/
+.pytest_cache/
