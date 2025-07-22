@@ -43,12 +43,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
+
     # Rest framework
     'rest_framework',
-    
-    #Apps
+
+    # Filter
+    'django_filters',
+
+    # Apps
     'accounts',
+    'courses'
 ]
 
 MIDDLEWARE = [
@@ -145,17 +149,25 @@ REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': [
         'core.utils.renderers.CustomJSONRenderer',
     ],
-        # Jwt import settings (pip install djangorestframework-simplejwt)
-        'DEFAULT_AUTHENTICATION_CLASSES': (  
+    # Jwt import settings (pip install djangorestframework-simplejwt)
+    'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ), 
-        # Configarçao pra as view so possam ser acessadas por usuários autenticados
-        'DEFAULT_PERMISSION_CLASSES': [
+    ),
+    # Configarçao pra as view so possam ser acessadas por usuários autenticados
+    'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
-    ] 
+    ],
+    # Configuração para permitir filtros e ordenação
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend',
+        'rest_framework.filters.OrderingFilter'
+    ],
+    # Configuração de paginação
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 12,
 }
 
-#Simple JWT settings
+# Simple JWT settings
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=7)
 }
