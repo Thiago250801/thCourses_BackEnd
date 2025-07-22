@@ -1,5 +1,7 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, decorators
 from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
+from rest_framework.request import Request
 
 from courses.filters import CourseFilter
 from courses.models import Course
@@ -13,3 +15,24 @@ class CourseViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = [AllowAny]  # Permite acesso a todos os usuários
     filterset_class = CourseFilter # /courses/?min_price=100
     ordering_fields = ['created_at', 'price'] # /courses/?ordering=created_at ou /courses/?ordering=price
+    
+    
+    
+    # Defined the enrolment date for the course if the user is authenticated
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        
+        enrolled_at = None
+        if request.user.is_authenticated:
+            enrolled = Enrollement.objects.filter(
+                user=request.user,
+                course=instance
+            ).first()
+            if enrolled:
+                enrolled_at = enrolled.enrolled_at
+                
+        return Response({
+            **serializer.data,
+            'enrolled_at': enrolled_at
+        })
