@@ -11,7 +11,7 @@ def custom_exception_handler(exc, context):
         if response.data.get('messages'):
             del response.data['messages']
             
-        if response.data.get('sucess') is None:
+        if response.data.get('success') is None:
             response.data['success'] = False
     
     return response
